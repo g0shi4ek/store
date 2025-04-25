@@ -58,7 +58,7 @@ func TestStoreRepository(t *testing.T) {
 	t.Run("Create,Get,Delete Item", func(t *testing.T) {
 		item := &domain.Item{
 			Name:     "book_6",
-			Amount:   10,
+			ItemTotal:   10,
 			Provider: "mmm",
 			Price:    10,
 		}

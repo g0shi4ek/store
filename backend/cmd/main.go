@@ -22,7 +22,7 @@ func main() {
 
 	repo := repository.NewRepository(pool)
 	service := services.NewStoreService(repo, cfg)
-	handler := handlers.NewStoreHandler(service)
+	handler := handlers.NewStoreHandler(service, cfg)
 
 	router := handler.InitRoutes()
 	log.Println("Starting server on :8080")

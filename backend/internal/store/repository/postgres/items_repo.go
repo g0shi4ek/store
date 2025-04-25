@@ -16,13 +16,13 @@ func NewItemsRepository(pgx * pgxpool.Pool) domain.ItemRepository{
 
 
 func (r * ItemsRepository) Create(ctx context.Context, item *domain.Item) error{
-	query := "INSERT INTO items (name, amount, provider, price) VALUES ($1, $2, $3, $4) RETURNING id"
-	return r.pg.QueryRow(ctx, query, item.Name, item.Amount, item.Provider, item.Price).Scan(&item.Id)
+	query := "INSERT INTO items (name, item_total, item_booked, provider, price) VALUES ($1, $2, $3, $4, $5) RETURNING id"
+	return r.pg.QueryRow(ctx, query, item.Name, item.ItemTotal,item.ItemBooked, item.Provider, item.Price).Scan(&item.Id)
 }
 
 func (r * ItemsRepository) Update(ctx context.Context, item *domain.Item) error{
-	query := "UPDATE items SET name = $1, amount = $2, provider = $3, price = $4 WHERE id = $5"
-	_, err := r.pg.Exec(ctx, query, item.Name, item.Amount, item.Provider, item.Price, item.Id)
+	query := "UPDATE items SET name = $1, item_total = $2, item_booked = $3, provider = $4, price = $5 WHERE id = $6"
+	_, err := r.pg.Exec(ctx, query, item.Name, item.ItemTotal,item.ItemBooked, item.Provider, item.Price, item.Id)
 	return err
 }
 
@@ -34,8 +34,8 @@ func (r * ItemsRepository) Delete(ctx context.Context, id int) error{
 
 func (r * ItemsRepository) GetById(ctx context.Context, id int) (*domain.Item, error){
 	var newItem domain.Item
-	query := "SELECT id, name, amount, provider, price FROM items WHERE id = $1"
-	err := r.pg.QueryRow(ctx, query, id).Scan(&newItem.Id, &newItem.Name, &newItem.Amount, &newItem.Provider, &newItem.Price)
+	query := "SELECT id, name, item_total, item_booked, provider, price FROM items WHERE id = $1"
+	err := r.pg.QueryRow(ctx, query, id).Scan(&newItem.Id, &newItem.Name, &newItem.ItemTotal, &newItem.ItemBooked, &newItem.Provider, &newItem.Price)
 	if err != nil{
 		return nil, err
 	}
@@ -44,8 +44,8 @@ func (r * ItemsRepository) GetById(ctx context.Context, id int) (*domain.Item, e
 
 func (r * ItemsRepository) GetByName(ctx context.Context, name string) (*domain.Item, error){
 	var newItem domain.Item
-	query := "SELECT id, name, amount, provider, price FROM items WHERE name = $1"
-	err := r.pg.QueryRow(ctx, query, name).Scan(&newItem.Id, &newItem.Name, &newItem.Amount, &newItem.Provider, &newItem.Price)
+	query := "SELECT id, name, item_total, item_booked, provider, price FROM items WHERE name = $1"
+	err := r.pg.QueryRow(ctx, query, name).Scan(&newItem.Id, &newItem.Name,  &newItem.ItemTotal, &newItem.ItemBooked, &newItem.Provider, &newItem.Price)
 	if err != nil{
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (r * ItemsRepository) GetByName(ctx context.Context, name string) (*domain.
 }
 
 func (r *ItemsRepository) GetAll(ctx context.Context) ([]*domain.Item, error) {
-	query := "SELECT id, name, amount, provider, price FROM items"
+	query := "SELECT id, name, item_total, item_booked, provider, price FROM items"
 	rows, err := r.pg.Query(ctx, query)
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func (r *ItemsRepository) GetAll(ctx context.Context) ([]*domain.Item, error) {
 	var items []*domain.Item
 	for rows.Next() {
 		var item domain.Item
-		err := rows.Scan(&item.Id, &item.Name, &item.Amount, &item.Provider, &item.Price)
+		err := rows.Scan(&item.Id, &item.Name,  &item.ItemTotal, &item.ItemBooked, &item.Provider, &item.Price)
 		if err != nil {
 			return nil, err
 		}

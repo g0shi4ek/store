@@ -2,6 +2,11 @@ package domain
 
 import "context"
 
+type UserRepository interface{
+	Create(ctx context.Context, user* User) error
+	GetByUsername(ctx context.Context, username string) (*User, error)
+}
+
 type ItemRepository interface {
 	Create(ctx context.Context, item * Item) error
 	GetById(ctx context.Context, id int) (*Item, error)

@@ -21,7 +21,8 @@ type DbConfig struct {
 }
 
 type StoreConfig struct {
-	Port string
+	Port      string
+	SecretKey string
 }
 
 func LoadConfig() *Config {
@@ -39,7 +40,8 @@ func LoadConfig() *Config {
 			DbName:     os.Getenv("DATABASE_NAME"),
 		},
 		StoreConf: StoreConfig{
-			Port: os.Getenv("PORT"),
+			Port:      os.Getenv("PORT"),
+			SecretKey: os.Getenv("KEY"),
 		},
 	}
 }

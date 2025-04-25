@@ -2,11 +2,13 @@ package services
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/g0shi4ek/store/config"
 	"github.com/g0shi4ek/store/internal/store/domain"
 	"github.com/g0shi4ek/store/internal/store/repository"
+	"github.com/g0shi4ek/store/pkg/jwt"
 )
 
 type StoreService struct {
@@ -138,3 +140,30 @@ func (s *StoreService) ViewAllStores(ctx context.Context) ([]*domain.Store, erro
 	log.Println("get all stores")
 	return rooms, nil
 }
+
+
+func (s * StoreService) RegisterUser(ctx context.Context, user * domain.User) error{
+	hash, err := HashPassword(user.PasswordHash)
+	if err != nil{
+		return err
+	}
+	user.PasswordHash = hash
+	err = s.repo.User().Create(ctx, user)
+	return err
+}
+
+func (s * StoreService) LoginUser(ctx context.Context, username, password string) (string, error){
+	user, err := s.repo.User().GetByUsername(ctx, username)
+	if err != nil{
+		return "", err
+	}
+	validPassword := user.PasswordHash
+	if !CheckPassword(validPassword, password) {
+		return "", fmt.Errorf("wrong password")
+	}
+	token, err := jwt.CreateNewToken(user, s.cfg)
+	if err != nil{
+		return "", err
+	}
+	return token, nil
+} 

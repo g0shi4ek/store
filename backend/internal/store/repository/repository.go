@@ -12,6 +12,7 @@ type Repository interface {
     Store() 	domain.StoreRepository
     Item() 		domain.ItemRepository
     Booking() 	domain.BookingRepository
+    User()      domain.UserRepository
 }
 
 type postgresRepository struct {
@@ -32,4 +33,8 @@ func (r *postgresRepository) Item() domain.ItemRepository {
 
 func (r *postgresRepository) Booking() domain.BookingRepository {
     return postgres.NewBookingRepository(r.pg)
+}
+
+func (r *postgresRepository) User() domain.UserRepository {
+    return postgres.NewUserRepository(r.pg)
 }

@@ -1,12 +1,19 @@
 package domain
 
+type User struct {
+	Id           int    `json:"id"`
+	Username     string `json:"username"`
+	PasswordHash string `json:"password_hash"`
+	Role         string `json:"role"`
+}
+
 type Item struct {
-	Id       int    `json:"id"`
-	Name     string `json:"name"`
-	Amount   int    `json:"amount"`
-	Provider string `json:"provider"`
-	ItemBooked int //добавить забронированные 
-	Price    int    `json:"price"`
+	Id         int    `json:"id"`
+	Name       string `json:"name"`
+	ItemTotal  int    `json:"item_total"`
+	ItemBooked int    `json:"item_booked"`
+	Provider   string `json:"provider"`
+	Price      int    `json:"price"`
 }
 
 type Store struct {
