@@ -4,6 +4,7 @@ import (
 	"github.com/g0shi4ek/store/config"
 	"github.com/g0shi4ek/store/internal/store/services"
 	"github.com/g0shi4ek/store/pkg/middleware"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,6 +22,14 @@ func NewStoreHandler(serv *services.StoreService, cfg *config.Config) *StoreHand
 
 func (h *StoreHandler) InitRoutes() *gin.Engine {
 	router := gin.Default()
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
 	api := router.Group("/api")
 	api.POST("/register", h.RegisterUser)

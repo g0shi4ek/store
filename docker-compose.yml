@@ -36,6 +36,17 @@ services:
       timeout: 5s
       retries: 5
 
+  frontend:
+    build: ./store-frontend  # путь к папке с React-приложением
+    container_name: react_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - store_server
+    networks:
+      - store_network
+
 volumes:
   postgres_data:
 

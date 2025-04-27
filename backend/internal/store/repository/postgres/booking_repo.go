@@ -94,7 +94,7 @@ func (r *BookingRepository) DeleteItemBooking(ctx context.Context, id int) error
 
 func (r *BookingRepository) GetItemBookingById(ctx context.Context, id int) (*domain.ItemBooking, error) {
 	var newBooking domain.ItemBooking
-	query := "SELECT id, item_id, amount, is_active FROM room_bookings WHERE id = $1"
+	query := "SELECT id, item_id, amount, is_active FROM item_bookings WHERE id = $1"
 	err := r.pg.QueryRow(ctx, query, id).Scan(&newBooking.Id, &newBooking.ItemId, &newBooking.Amount, &newBooking.IsActive)
 	if err != nil {
 		return nil, err
@@ -103,7 +103,7 @@ func (r *BookingRepository) GetItemBookingById(ctx context.Context, id int) (*do
 }
 
 func (r *BookingRepository) GetAllItemBookings(ctx context.Context) ([]*domain.ItemBooking, error) {
-	query := "SELECT id, item_id, amount, is_active FROM room_bookings"
+	query := "SELECT id, item_id, amount, is_active FROM item_bookings"
 	rows, err := r.pg.Query(ctx, query)
 	if err != nil {
 		return nil, err

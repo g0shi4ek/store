@@ -33,11 +33,11 @@ func (h *StoreHandler) LoginUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	token, err := h.storeService.LoginUser(c.Request.Context(), input.Username, input.Password)
+	role, token, err := h.storeService.LoginUser(c.Request.Context(), input.Username, input.Password)
 	if token == "" || err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.Header("Authorization", "Bearer "+token)
-	c.JSON(http.StatusOK, gin.H{"token": token})
+	c.Header("Authorization", token)
+	c.JSON(http.StatusOK, gin.H{"token": token, "role": role})
 }

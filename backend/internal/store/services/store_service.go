@@ -60,7 +60,12 @@ func (s *StoreService) BuyItemsBooking(ctx context.Context, bookingId int) error
 	}
 	booking.IsActive = true
 	err = s.repo.Booking().UpdateItemBooking(ctx, booking)
+	if err != nil {
+		return err
+	}
 	log.Println("buy items")
+	err = s.repo.Booking().DeleteItemBooking(ctx, bookingId)
+	log.Println("delete items booking")
 	return err
 }
 
@@ -141,10 +146,9 @@ func (s *StoreService) ViewAllStores(ctx context.Context) ([]*domain.Store, erro
 	return rooms, nil
 }
 
-
-func (s * StoreService) RegisterUser(ctx context.Context, user * domain.User) error{
+func (s *StoreService) RegisterUser(ctx context.Context, user *domain.User) error {
 	hash, err := HashPassword(user.PasswordHash)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 	user.PasswordHash = hash
@@ -152,18 +156,18 @@ func (s * StoreService) RegisterUser(ctx context.Context, user * domain.User) er
 	return err
 }
 
-func (s * StoreService) LoginUser(ctx context.Context, username, password string) (string, error){
+func (s *StoreService) LoginUser(ctx context.Context, username, password string) (string, string, error) {
 	user, err := s.repo.User().GetByUsername(ctx, username)
-	if err != nil{
-		return "", err
+	if err != nil {
+		return "", "", err
 	}
 	validPassword := user.PasswordHash
 	if !CheckPassword(validPassword, password) {
-		return "", fmt.Errorf("wrong password")
+		return "", "", fmt.Errorf("wrong password")
 	}
 	token, err := jwt.CreateNewToken(user, s.cfg)
-	if err != nil{
-		return "", err
+	if err != nil {
+		return "", "", err
 	}
-	return token, nil
-} 
+	return user.Role, token, nil
+}
