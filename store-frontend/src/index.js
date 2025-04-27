@@ -1,9 +1,8 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './styles.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import './styles.css';
 // Получаем корневой элемент
 const container = document.getElementById('root');
 

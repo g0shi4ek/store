@@ -30,7 +30,12 @@ const Sidebar = () => {
             <Nav.Link as={Link} to="/dashboard?tab=room-bookings">
                 Room Bookings
             </Nav.Link>
+
+            <Nav.Link as={Link} to="/items/new">
+                Add New Item
+            </Nav.Link>
             </>
+
         )}
         {user?.role === 'seller' && (
             <>
