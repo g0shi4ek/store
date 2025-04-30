@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"os"
-	"os/exec"
 
 	"github.com/g0shi4ek/store/config"
 	"github.com/g0shi4ek/store/internal/store/handlers"
@@ -13,19 +11,8 @@ import (
 	"github.com/g0shi4ek/store/pkg/db"
 )
 
-func initDB() {
-    if os.Getenv("RUN_MIGRATIONS") == "true" {
-        log.Println("Running migrations...")
-        if err := exec.Command("go", "run", "/migrate").Run(); err != nil {
-            log.Fatalf("Failed to run migrations: %v", err)
-        }
-    }
-}
-
 func main() {
 	cfg := config.LoadConfig()
-
-	initDB() // для облака
 
 	pool, err := db.NewPool(context.Background(), cfg)
 	if err != nil {
