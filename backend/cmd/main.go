@@ -26,5 +26,5 @@ func main() {
 
 	router := handler.InitRoutes()
 	log.Println("Starting server")
-	log.Fatal(router.Run(":8080"))
+	log.Fatal(router.Run("0.0.0.0:" + cfg.StoreConf.Port))
 }
