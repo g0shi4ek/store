@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"strings"
+	"time"
+
 	"github.com/g0shi4ek/store/config"
 	"github.com/g0shi4ek/store/internal/store/services"
 	"github.com/g0shi4ek/store/pkg/middleware"
@@ -23,12 +26,28 @@ func NewStoreHandler(serv *services.StoreService, cfg *config.Config) *StoreHand
 func (h *StoreHandler) InitRoutes() *gin.Engine {
 	router := gin.Default()
 
+	router.Use(func(c *gin.Context) {
+		c.Header("X-Content-Type-Options", "nosniff")
+		c.Header("X-Frame-Options", "DENY")
+		c.Header("X-XSS-Protection", "1; mode=block")
+		c.Header("Cache-Control", "no-store, no-cache, must-revalidate")
+
+		// Для API отключаем кэширование
+		if strings.HasPrefix(c.Request.URL.Path, "/api") {
+			c.Header("Pragma", "no-cache")
+			c.Header("Expires", "0")
+		}
+		c.Next()
+	})
+
+	// CORS middleware
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"https://store-vu93.onrender.com"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
 	}))
 
 	api := router.Group("/api")
