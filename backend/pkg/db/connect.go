@@ -23,7 +23,7 @@ func NewPool(ctx context.Context, cfg *config.Config) (*pgxpool.Pool, error) {
 		log.Fatalf("Cannot parse config, %v", err)
 	}
 	config.MaxConns = 10
-	config.MaxConnLifetime = time.Hour * 2 // вынести в конфиг
+	config.MaxConnLifetime = time.Hour * 2
 
 	log.Printf("Connected to database, %s", cfg.DbConf.DbName)
 

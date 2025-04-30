@@ -18,6 +18,7 @@ type DbConfig struct {
 	DbHost     string
 	DbUser     string
 	DbPassword string
+	DbUrl      string
 }
 
 type StoreConfig struct {
@@ -38,6 +39,7 @@ func LoadConfig() *Config {
 			DbUser:     os.Getenv("DATABASE_USER"),
 			DbPassword: os.Getenv("DATABASE_PASSWORD"),
 			DbName:     os.Getenv("DATABASE_NAME"),
+			DbUrl:      os.Getenv("DATABASE_URL"),
 		},
 		StoreConf: StoreConfig{
 			Port:      os.Getenv("PORT"),
