@@ -11,7 +11,7 @@ const CreateItemPage = () => {
     const handleSubmit = async (itemData) => {
         try {
             await createItem(itemData);
-            navigate('/items'); // Перенаправляем после успешного создания
+            navigate('/'); // Перенаправляем после успешного создания
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to create item');
         }
