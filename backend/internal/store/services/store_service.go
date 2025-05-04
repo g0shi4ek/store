@@ -7,16 +7,15 @@ import (
 
 	"github.com/g0shi4ek/store/config"
 	"github.com/g0shi4ek/store/internal/store/domain"
-	"github.com/g0shi4ek/store/internal/store/repository"
 	"github.com/g0shi4ek/store/pkg/jwt"
 )
 
 type StoreService struct {
-	repo repository.Repository
+	repo domain.IRepository
 	cfg  *config.Config
 }
 
-func NewStoreService(repo repository.Repository, cfg *config.Config) *StoreService {
+func NewStoreService(repo domain.IRepository, cfg *config.Config) domain.IStoreService {
 	return &StoreService{
 		repo: repo,
 		cfg:  cfg,

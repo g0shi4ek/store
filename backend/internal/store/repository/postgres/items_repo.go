@@ -10,7 +10,7 @@ type ItemsRepository struct{
 	pg *pgxpool.Pool
 }
 
-func NewItemsRepository(pgx * pgxpool.Pool) domain.ItemRepository{
+func NewItemsRepository(pgx * pgxpool.Pool) domain.IItemRepository{
 	return &ItemsRepository{pg: pgx}
 }
 

@@ -11,7 +11,7 @@ type UserRepository struct {
 	pg *pgxpool.Pool
 }
 
-func NewUserRepository (pgx * pgxpool.Pool) domain.UserRepository{
+func NewUserRepository (pgx * pgxpool.Pool) domain.IUserRepository{
 	return &UserRepository{pg:pgx}
 }
 

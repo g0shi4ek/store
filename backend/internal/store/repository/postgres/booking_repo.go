@@ -11,7 +11,7 @@ type BookingRepository struct {
 	pg *pgxpool.Pool
 }
 
-func NewBookingRepository(pgx *pgxpool.Pool) domain.BookingRepository {
+func NewBookingRepository(pgx *pgxpool.Pool) domain.IBookingRepository {
 	return &BookingRepository{pg: pgx}
 }
 

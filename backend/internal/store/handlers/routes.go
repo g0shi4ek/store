@@ -5,20 +5,20 @@ import (
 	"time"
 
 	"github.com/g0shi4ek/store/config"
-	"github.com/g0shi4ek/store/internal/store/services"
+	"github.com/g0shi4ek/store/internal/store/domain"
 	"github.com/g0shi4ek/store/pkg/middleware"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 type StoreHandler struct {
-	storeService services.StoreService
+	storeService domain.IStoreService
 	cfg          *config.Config
 }
 
-func NewStoreHandler(serv *services.StoreService, cfg *config.Config) *StoreHandler {
+func NewStoreHandler(serv domain.IStoreService, cfg *config.Config) *StoreHandler {
 	return &StoreHandler{
-		storeService: *serv,
+		storeService: serv,
 		cfg:          cfg,
 	}
 }

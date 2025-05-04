@@ -2,7 +2,10 @@ module github.com/g0shi4ek/store
 
 go 1.23.4
 
-require github.com/jackc/pgx/v5 v5.7.4
+require (
+	github.com/golang/mock v1.6.0
+	github.com/jackc/pgx/v5 v5.7.4
+)
 
 require (
 	github.com/bytedance/sonic v1.13.2 // indirect

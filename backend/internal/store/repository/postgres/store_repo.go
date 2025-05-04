@@ -11,7 +11,7 @@ type StoresRepository struct {
 	pg *pgxpool.Pool
 }
 
-func NewStoresRepository(pgx *pgxpool.Pool) domain.StoreRepository {
+func NewStoresRepository(pgx *pgxpool.Pool) domain.IStoreRepository {
 	return &StoresRepository{pg: pgx}
 }
 
