@@ -42,7 +42,7 @@ func (h *StoreHandler) InitRoutes() *gin.Engine {
 
 	// Улучшенный CORS middleware
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://store-vu93.onrender.com"},
+		AllowOrigins:     []string{"https://store-front-4ulo.onrender.com"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization", "X-Requested-With"},
 		ExposeHeaders:    []string{"Content-Length", "Authorization"},
@@ -52,7 +52,7 @@ func (h *StoreHandler) InitRoutes() *gin.Engine {
 
 	// Явная обработка OPTIONS запросов
 	router.OPTIONS("/*any", func(c *gin.Context) {
-		c.Header("Access-Control-Allow-Origin", "https://store-vu93.onrender.com")
+		c.Header("Access-Control-Allow-Origin", "https://store-front-4ulo.onrender.com")
 		c.Header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
 		c.Header("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With")
 		c.Status(200)
